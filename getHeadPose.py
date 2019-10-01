@@ -11,6 +11,7 @@ import torchvision
 import torch.nn.functional as F
 from PIL import Image
 import shutil
+import pandas as pd
 
 from sys import path
 
@@ -41,7 +42,7 @@ def run_head_pose_hopenet(input_folder, save_dir):
     gpu_id = 0
     cudnn.enabled = True
 
-    snapshot_path = os.path.join(os.path.dirname(__file__), 'deep-head-pose', 'models', 'hopenet_alpha2.pkl')
+    snapshot_path = os.path.join(os.path.dirname(__file__), 'HopeNet', 'models', 'hopenet_alpha2.pkl')
 
     # ResNet50 structure
     model = hopenet.Hopenet(torchvision.models.resnet.Bottleneck, [3, 4, 6, 3], 66)
@@ -139,15 +140,15 @@ def run_head_pose_FSA(input_folder, save_dir):
     
     print('Loading models ...')
     
-    weight_file1 = './FSA-Net/pre-trained/300W_LP_models/fsanet_capsule_3_16_2_21_5/fsanet_capsule_3_16_2_21_5.h5'
+    weight_file1 = './FSA/pre-trained/300W_LP_models/fsanet_capsule_3_16_2_21_5/fsanet_capsule_3_16_2_21_5.h5'
     model1.load_weights(weight_file1)
     print('Finished loading model 1.')
     
-    weight_file2 = './FSA-Net/pre-trained/300W_LP_models/fsanet_var_capsule_3_16_2_21_5/fsanet_var_capsule_3_16_2_21_5.h5'
+    weight_file2 = './FSA/pre-trained/300W_LP_models/fsanet_var_capsule_3_16_2_21_5/fsanet_var_capsule_3_16_2_21_5.h5'
     model2.load_weights(weight_file2)
     print('Finished loading model 2.')
     
-    weight_file3 = './FSA-Net/pre-trained/300W_LP_models/fsanet_noS_capsule_3_16_2_192_5/fsanet_noS_capsule_3_16_2_192_5.h5'
+    weight_file3 = './FSA/pre-trained/300W_LP_models/fsanet_noS_capsule_3_16_2_192_5/fsanet_noS_capsule_3_16_2_192_5.h5'
     model3.load_weights(weight_file3)
     print('Finished loading model 3.')
     
@@ -216,7 +217,7 @@ def essemble_head_pose(save_dir):
     
     with open(os.path.join(save_dir, 'head_pose_prediction_ensemble.json'), 'w') as f:
         f.write(r)
-        
+    
 def get_head_pose_images(input_folder, save_dir):
     annotations = os.path.join(save_dir, 'head_pose_prediction_ensemble.json')
     with open(annotations, 'r') as f:
@@ -250,6 +251,6 @@ def get_head_pose(input_folder, save_dir):
     
     
 if __name__ == '__main__':
-    image_folder = '/home/giancarlo/Documents/HeadPose-test/data_labeling/test'
-    head_pose_dir = '/home/giancarlo/Documents/HeadPose-test/results_labeling/test'
+    image_folder = '/home/giancarlo/Documents/MT_Project/data/advertima_appa_real_v_4_3/train'
+    head_pose_dir = '/home/giancarlo/Documents/MT_Project/data/advertima_appa_real_v_4_3/hp_labels/train'
     get_head_pose(image_folder,head_pose_dir)
