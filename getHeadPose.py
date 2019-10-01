@@ -14,10 +14,10 @@ import shutil
 
 from sys import path
 
-path.insert(0, os.path.join(os.path.dirname(__file__), 'deep-head-pose', 'code'))
+path.insert(0, os.path.join(os.path.dirname(__file__), 'HopeNet', 'code'))
 import datasets, hopenet, utils
 
-path.insert(0, os.path.join(os.path.dirname(__file__), 'FSA-Net', 'demo'))
+path.insert(0, os.path.join(os.path.dirname(__file__), 'FSA', 'demo'))
 from FSANET_model import *
 
 
